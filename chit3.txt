@@ -1,0 +1,30 @@
+CREATE TABLE Stud (
+    Roll INT PRIMARY KEY,
+    Att INT,
+    Status VARCHAR(2)
+);
+
+INSERT INTO Stud (Roll, Att, Status)
+VALUES
+    (101, 80, NULL),
+    (102, 70, NULL),
+    (103, 60, NULL);
+DELIMITER $
+CREATE PROCEDURE CheckAndUpdateAttendance(IN v_roll INT)
+BEGIN
+    DECLARE v_attendance INT;
+     DECLARE v_status VARCHAR(2);
+    SELECT Att, Status INTO v_attendance, v_status
+    FROM Stud
+    WHERE Roll = v_roll;
+
+    IF v_attendance < 75 THEN
+        UPDATE Stud
+        SET Status = 'D'
+        WHERE Roll = v_roll;
+    ELSE
+        UPDATE Stud
+        SET Status = 'ND'
+        WHERE Roll = v_roll;
+    END IF;
+    END;$

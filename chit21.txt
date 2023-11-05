@@ -1,0 +1,43 @@
+use new1 
+db.createCollection("orderinfo")
+ db.orderinfo.insert([{ cust_id:123,cust_name:"abc",status:"A",price:25},])
+ db.orderinfo.updateMany({}, { $set: { Age: null } });
+ db.orderinfo.find()
+
+
+ db.orderinfo.updateMany({}, { $set: { Age: 10 } });
+db.orderinfo.find()
+
+ db.orderinfo.createIndex({ cust_id: 1, status: 1 });
+db.orderinfo.aggregate([
+  { $sort: { _id: 1 } },
+  {
+    $group: {
+      _id: { cust_id: "$cust_id", status: "$status" },
+      docId: { $first: "$_id" }
+    }
+  }
+]).forEach(function (group) {
+  db.orderinfo.remove({ _id: { $ne: group.docId } });
+});
+
+
+
+
+
+ db.orderinfo.updateMany(
+   { status: "B" },
+  { $set: { status: "C" } }
+ );
+db.orderinfo.find()
+
+
+db.orderinfo.aggregate([
+   {
+    $group: {
+      _id: "$status",
+       avgPrice: { $avg: "$price" }
+     }
+   }
+ ]);
+

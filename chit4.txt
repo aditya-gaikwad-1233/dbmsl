@@ -1,0 +1,22 @@
+SELECT dept_name, AVG(salary) as avg_salary
+FROM instructor
+GROUP BY dept_name
+HAVING avg_salary > 42000;
+
+ update instructor
+ set salary=salary*1.1
+ where dept_name='cs';
+
+SELECT name
+FROM instructor
+WHERE name NOT IN ('Amol', 'Amit');
+
+
+SELECT name
+FROM student
+WHERE name LIKE '%am%';
+
+SELECT s.name
+FROM student s
+JOIN course c ON s.dept_name = c.dept_name
+WHERE c.title = 'DBMS' AND s.dept_name = 'Computer Science';

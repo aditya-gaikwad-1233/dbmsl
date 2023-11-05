@@ -1,0 +1,33 @@
+create table lib_audit(bookid int,bookname varchar(20),price int);
+
+create table lib_audit2(bookid int,bookname varchar(20),price int);
+delimiter $
+
+Create trigger after_delete_lib_audit after delete on lib_audit for each row
+begin
+insert into lib_audit2 values(old.bookid,old.bookname,old.price);
+end$
+
+insert into lib_audit values(1,'ab',100)$
+
+insert into lib_audit values(2,'cd',10)$
+
+insert into lib_audit values(3,'dg',101)$
+select * from lib_audit$
+select * from lib_audit2$
+
+delete from lib_audit where bookid=1$
+
+select * from lib_audit$
+select * from lib_audit2$
+
+delete from lib_audit where bookid=3$
+select * from lib_audit2$
+
+Create trigger after_update_lib_audit after update on lib_audit for each row
+begin
+insert into lib_audit2 values(old.bookid,old.bookname,old.price);
+end$
+update lib_audit set bookname='xy' where bookid=2$
+select * from lib_audit$
+select * from lib_audit2$

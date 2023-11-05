@@ -1,0 +1,23 @@
+use new1
+
+
+db.createCollection("movies")
+db.movies.insert([ {
+    name: 'Movie1',
+    type: 'action',
+   budget: 1000000,
+   producer: { name: 'producer1', address: 'PUNE' }
+  },])
+db.movies.find()
+db.movies.find({ budget: { $gt: 100000 } }, { _id: 0, name: 1 })
+db.movies.find({ "producer.address": "PUNE" }, { _id: 0, "producer.name": 1 })
+db.movies.updateMany({ type: "action" }, { $set: { type: "horror" } })
+db.movies.find()
+db.movies.aggregate([
+   {
+     $group: {
+       _id: "$type",
+       totalBudget: { $sum: "$budget" }
+     }
+   }
+ ])

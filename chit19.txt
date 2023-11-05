@@ -1,0 +1,24 @@
+CREATE TABLE emp (
+  Eno NUMBER CONSTRAINT pk_emp PRIMARY KEY,
+  Ename VARCHAR2(50) NOT NULL,
+  Address VARCHAR2(50) DEFAULT 'Nashik',
+  Joindate DATE
+);
+
+-- Create a sequence for the primary key starting with 101
+CREATE SEQUENCE eno_sequence START WITH 101;
+
+-- Add the "Post" field to the emp table
+ALTER TABLE emp ADD Post VARCHAR2(50);
+
+-- Insert some data into the emp table
+INSERT INTO emp (Eno, Ename, Joindate, Post)
+VALUES (eno_sequence.NEXTVAL, 'John Doe', TO_DATE('2023-11-05', 'YYYY-MM-DD'), 'Manager');
+
+-- Create an index on the Ename field
+CREATE INDEX idx_ename ON emp (Ename);
+
+-- Create a view to display Ename and Salary (assuming a "Salary" field exists in the table)
+CREATE VIEW emp_view AS
+SELECT Ename, Salary
+FROM emp;

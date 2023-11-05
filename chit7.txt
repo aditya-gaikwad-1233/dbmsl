@@ -1,0 +1,41 @@
+create table stud_marks(name varchar(20) primary key, total_marks int);
+create table result(roll int, name varchar(20),class varchar(10));
+insert into stud_marks values('abhijit',1020);
+insert into stud_marks values('anand',979);
+insert into stud_marks values('vijay',864);
+insert into stud_marks values('vikas',755);
+
+delimiter $
+Create procedure proc_grade()
+begin
+declare done int default false;
+declare roll int;
+declare totmarks int;
+declare class varchar(10);
+declare name1 varchar(20);
+declare c1 cursor for select name,total_marks from stud_marks;
+declare continue handler for not found set done=true;
+open c1;
+set roll=1;
+readloop:loop
+fetch c1 into name1,totmarks;
+if done then
+leave readloop;
+end if;
+if totmarks<=1500 and totmarks>=990 then
+insert into result values(roll,'dist',name1);
+elseif totmarks<=989 and totmarks>=900 then
+insert into result values(roll,'first',name1);
+elseif totmarks<=899 and totmarks>=825 then
+insert into result values(roll,'HSC',name1);
+else
+insert into result values(roll,'poor',name1);
+end if;
+set roll=roll+1;
+end loop;
+end $
+
+call proc_grade()$
+select * from result$
+
+

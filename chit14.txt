@@ -1,0 +1,43 @@
+use new1
+db.createCollection("Teachers");
+db.Teachers.insertMany([
+  {
+    Tname: "John Doe",
+    dno: 1,
+    Experience: 5,
+    Salary: 12000,
+    Date_of_Joining: new Date("2022-01-15"),
+  },
+  {
+    Tname: "Jane Smith",
+    dno: 2,
+    Experience: 8,
+    Salary: 9500,
+    Date_of_Joining: new Date("2020-03-20"),
+  },
+  
+]);
+
+
+db.createCollection("Department");
+db.Department.insertMany([
+  { Dno: 1, Dname: "Mathematics" },
+  { Dno: 2, Dname: "Science" },
+ 
+]);
+
+
+db.createCollection("Students");
+db.Students.insertMany([
+  { Sname: "Alice", Roll_No: 1, Class: "FE" },
+  { Sname: "Bob", Roll_No: 2, Class: "SE" },
+  
+]);
+
+
+db.Teachers.find({ dno: 2, Salary: { $gte: 10000 } });
+db.Students.find({ $or: [{ Roll_No: 2 }, { Sname: "xyz" }] });
+db.Students.updateOne({ Roll_No: 5 }, { $set: { Sname: "NewName" } });
+db.Students.deleteMany({ Class: "FE" });
+db.Students.createIndex({ Roll_No: 1 });
+

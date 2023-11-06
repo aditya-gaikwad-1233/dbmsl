@@ -1,0 +1,67 @@
+
+db.createCollection("mycollection")
+
+
+
+db.mycollection.insertMany([
+  { name: "Kunal", city: "Pune", age: 21 },
+  { name: "Ritesh", city: "Pune", age: 19 },
+  { name: "Raju", city: "Mumbai", age: 18 }
+])
+
+
+db.mycollection.createIndex({ name: 1 })
+
+
+
+db.mycollection.createIndex({ city: 1, age: 1 })
+
+
+
+db.mycollection.createIndex({ name: 2 }, { unique: true })
+
+db.mycollection.getIndexes()
+
+db.mycollection.dropIndex({ name: 1,name:2})
+
+
+
+
+
+
+db.createCollection("Student")
+db.Student.insertMany([ { Rollno: 1, name: "Navin", subject: "DMSA", marks: 78 }, { Rollno: 2, name: "anusha", subject: "OSD", marks: 75 }, { Rollno: 3, name: "ravi", subject: "TOC", marks: 69 }, { Rollno: 4, name:"veena",subject:"TOC",marks:70},   { Rollno: 5, name: 'Pravini', subject: 'OSD', marks: 80 },{Rollno:6,name:"Reena",subject:"DMSA",marks:50},{Rollno:7,name:"Geeta",subject:"CN",marks:90},{Rollno:8,name:"Aksah",subject:"CN",marks:85}])
+
+
+
+db.Student.aggregate([
+  { $group: { _id: "$subject", maxMarks: { $max: "$marks" } } }
+])
+
+db.Student.aggregate([
+  { $group: { _id: "$subject", minMarks: { $min: "$marks" } } }
+])
+
+db.Student.aggregate([
+  { $group: { _id: "$subject", totalMarks: { $sum: "$marks" } } }
+])
+
+
+db.Student.aggregate([
+  { $group: { _id: "$subject", avgMarks: { $avg: "$marks" } } }
+])
+
+
+db.Student.aggregate([
+  { $group: { _id: "$subject", firstRecord: { $first: "$$ROOT" } } }
+])
+
+
+db.Student.aggregate([
+  { $group: { _id: "$subject", lastRecord: { $last: "$$ROOT" } } }
+])
+
+
+db.Student.aggregate([
+  { $group: { _id: "$subject", count: { $sum: 1 } } }
+])
